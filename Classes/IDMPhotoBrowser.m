@@ -1151,7 +1151,10 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     CGRect screenBound = self.view.bounds;
     CGFloat screenWidth = screenBound.size.width;
 
-    CGRect rtn = CGRectMake(screenWidth - self.doneButtonRightInset - self.doneButtonSize.width, self.doneButtonTopInset, self.doneButtonSize.width, self.doneButtonSize.height);
+    CGRect rtn = CGRectMake((screenWidth - self.doneButtonSize.width) / 2.0,
+                            self.doneButtonTopInset,
+                            self.doneButtonSize.width,
+                            self.doneButtonSize.height);
     rtn = [self adjustForSafeArea:rtn adjustForStatusBar:true];
     return rtn;
 }
