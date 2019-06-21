@@ -155,13 +155,20 @@
 }
 
 - (void)setProgress:(CGFloat)progress forPhoto:(IDMPhoto*)photo {
-    IDMPhoto *p = (IDMPhoto*)self.photo;
-
-    if ([photo.photoURL.absoluteString isEqualToString:p.photoURL.absoluteString]) {
-        if (_progressView.progress < progress) {
-            [_progressView setProgress:progress animated:YES];
+    __weak typeof(self) weakSelf = self;
+    [NSOperationQueue.mainQueue addOperationWithBlock:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return;
         }
-    }
+        IDMPhoto *p = (IDMPhoto*)strongSelf.photo;
+        
+        if ([photo.photoURL.absoluteString isEqualToString:p.photoURL.absoluteString]) {
+            if (strongSelf->_progressView.progress < progress) {
+                [strongSelf->_progressView setProgress:progress animated:YES];
+            }
+        }
+    }];
 }
 
 // Image failed so just show black!
